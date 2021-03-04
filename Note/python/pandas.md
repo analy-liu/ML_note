@@ -1,21 +1,25 @@
  # python中pandas包的使用
 - [python中pandas包的使用](#python中pandas包的使用)
-  - [1. import](#1-import)
-  - [2. 读取数据](#2-读取数据)
-    - [2.1. pd.read_csv()语法：](#21-pdread_csv语法)
-    - [2.2. 主要参数](#22-主要参数)
-      - [2.2.1. 基本导入：](#221-基本导入)
-      - [2.2.2. 数据选择：](#222-数据选择)
-      - [2.2.3. 值的处理：](#223-值的处理)
-  - [3. 数据操作](#3-数据操作)
-    - [3.1. 数据切片](#31-数据切片)
-      - [3.1.1. df.loc用法](#311-dfloc用法)
-      - [3.1.2. df.iloc用法](#312-dfiloc用法)
-    - [3.2. 数据合并](#32-数据合并)
-      - [3.2.1. merge](#321-merge)
-      - [3.2.2. concat](#322-concat)
-      - [3.2.3. append](#323-append)
-      - [3.2.4. join](#324-join)
+  - [1. 包导入](#1-包导入)
+  - [2. 数据IO](#2-数据io)
+    - [2.1. 数据导入](#21-数据导入)
+      - [2.1.1. pd.read_csv()参数：](#211-pdread_csv参数)
+        - [2.1.1.1. 基本导入参数：](#2111-基本导入参数)
+        - [2.1.1.2. 数据选择参数：](#2112-数据选择参数)
+        - [2.1.1.3. 值的处理参数：](#2113-值的处理参数)
+    - [2.2. 数据导出](#22-数据导出)
+      - [2.2.1. df.to_csv()参数](#221-dfto_csv参数)
+        - [2.2.1.1. 基本导出参数](#2211-基本导出参数)
+  - [3. 数据查看](#3-数据查看)
+  - [4. 数据操作](#4-数据操作)
+    - [4.1. 数据切片](#41-数据切片)
+      - [4.1.1. df.loc用法](#411-dfloc用法)
+      - [4.1.2. df.iloc用法](#412-dfiloc用法)
+    - [4.2. 数据合并](#42-数据合并)
+      - [4.2.1. merge](#421-merge)
+      - [4.2.2. concat](#422-concat)
+      - [4.2.3. append](#423-append)
+      - [4.2.4. join](#424-join)
 
 pandas可以将数据文件读取形成DataFrame，通常命名为df。  
 pandas 是一个开源的 Python 库，可提供高性能的数据处理和分析。将 Python 与 pandas 组合使用，无论数据来源如何，您都可以完成五个典型的数据处理和分析步骤：加载、准备、操作、建模和分析。  
@@ -27,26 +31,29 @@ pandas 是一个开源的 Python 库，可提供高性能的数据处理和分�
 * 合并或连接数据帧
 * 以透视或重塑的方式汇总数据
 * 创建可视化效果
-## 1. import
+## 1. 包导入
 ```python
 import pandas as pd
 ```
-## 2. 读取数据
-```python
-pd.read_csv()
-pd.read_excel()
-pd.read_table()
-pd.read_fwf()
-pd.read_pickle()
-pd.read_clipboard()
+## 2. 数据IO
+### 2.1. 数据导入
 
+pd.read_csv(filename)： 从CSV文件导入数据
+pd.read_excel(filename)： 从Excel文件导入数据
+pd.read_table(filename)： 从限定分隔符的文本文件导入数据
+pd.read_json(json_string)： 从JSON格式的字符串导入数据
+pd.read_SQL(query, connection_object)： 从SQL表/库导入数据
+pd.read_html(url)： 解析URL、字符串或者HTML文件
+pd.read_clipboard()： 从粘贴板获取内容
+pd.DataFrame(dict)： 从字典对象导入数据
+```python
 # 读取中文路径
 path = open(r'.\文档\data.csv')
 # csv文件是gbk格式:open(r'.\文档\data.csv','rb')
 pd.read_csv(path, sep='\t', skiprows=[0], nrows=0, na_values='1.#INF')
 path.close
 ```
-### 2.1. pd.read_csv()语法：
+#### 2.1.1. pd.read_csv()参数：
 ```python
 pd.read_csv(filepath_or_buffer: Union[str, pathlib.Path, IO[~AnyStr]],
 sep=',', delimiter=None, header='infer', names=None, index_col=None,
@@ -65,8 +72,8 @@ encoding=None, dialect=None, error_bad_lines=True,
 warn_bad_lines=True, delim_whitespace=False,
 low_memory=True, memory_map=False, float_precision=None)
 ```
-### 2.2. 主要参数
-#### 2.2.1. 基本导入：
+
+##### 2.1.1.1. 基本导入参数：
 |参数名|含义|输入|默认|pd.read_csv(用例)|注释|
 |--|--|--|--|--|--|
 |filepath<br>_or_buffer|文件路径|str|必填|(r'.\data.csv')|可以是url或本地路径|
@@ -75,14 +82,14 @@ low_memory=True, memory_map=False, float_precision=None)
 |names|设定列名|array-like|None|(./data.csv,<br>names = namelist)|没有表头时使用，同时设置header=None|
 |dtype|每列数据的数据类型|str or dict|None|(./data.csv,<br>dtype = {'time': str, 'ID': int})||
 
-#### 2.2.2. 数据选择：
+##### 2.1.1.2. 数据选择参数：
 |参数名|含义|输入|默认|pd.read_csv(用例)|注释|
 |--|--|--|--|--|--|
 |usecols|使用部分列|list[int] or list[str]|None|(./data.csv,<br>usecols=[0,4,3])|默认不按顺序，按顺序方法：(./data.csv, usecols=<br>lambda x: x.upper() in ['COL3','COL1'])|
 |skiprows|跳过指定行|int list[int]|None|(./data.csv,<br>skiprows=range(2))|从文件头开始算起|
 |skipfooter|尾部跳过|int list[int]|None|(./data.csv,<br>skipfooter=1)|用例为跳过最后一行<br>c引擎不支持|
 |nrows|读取的行数|int|None|(./data.csv,<br>nrows=1000)|从文件头开始算起|
-#### 2.2.3. 值的处理：
+##### 2.1.1.3. 值的处理参数：
 |参数名|含义|输入|默认|pd.read_csv(用例)|注释|
 |--|--|--|--|--|--|
 |true_values|真值转换|list|None|(./data.csv, true_values=['Yes'])||
@@ -92,9 +99,41 @@ low_memory=True, memory_map=False, float_precision=None)
 |skip_blank_lines|跳过空行|bool|True|(./data.csv,<br>skip_blank_lines=False)|如果为True，则跳过空行；否则记为NaN。|
 |parse_dates|日期时间解析|bool list dict|False|(./data.csv,<br>parse_dates=True)|指定日期时间字段进行解析:<br>parse_dates=['年份']<br>将1,4列合并为‘time’时间类型列<br>parse_dates={'time':[1,4]}|
 |infer_datetime_format|自动识别日期时间|bool|False|(./data.csv,<br>parse_dates=True,<br>infer_datetime_format=True)|按用例方法，自动识别并解析，无需指定|
+### 2.2. 数据导出
+df.to_csv(filename)：导出数据到CSV文件
+df.to_excel(filename)：导出数据到Excel文件
+df.to_sql(table_name, connection_object)：导出数据到SQL表
+df.to_json(filename)：以Json格式导出数据到文本文件
 
-## 3. 数据操作
-### 3.1. 数据切片
+#### 2.2.1. df.to_csv()参数
+```python
+DataFrame.to_csv(path_or_buf=None, sep=', ', na_rep='', 
+float_format=None, columns=None, 
+header=True, index=True, index_label=None, mode='w', 
+encoding=None, compression=None, 
+quoting=None, quotechar='"', line_terminator='\n', 
+chunksize=None, tupleize_cols=None, 
+date_format=None, doublequote=True, escapechar=None, decimal='.')
+```
+##### 2.2.1.1. 基本导出参数
+|参数名|含义|输入|默认|注释|
+|--|--|--|--|--|
+|path_or_buf|导出路径|string or file handle|None|如果没有提供，结果将返回为字符串|
+|sep|输出文件的字段分隔符|character|‘,’||
+|columns|列顺序||None|可选列写入|
+|index|是否输出index|boolean|True||
+|encoding|编码格式|string|None|Python 3上默认为“UTF-8”|
+|date_format|字符串对象转换为日期时间对象|string|None||
+|decimal|字符识别为小数点分隔符|string|‘.’|欧洲数据使用 ​​’，’|
+
+## 3. 数据查看
+df.shape()：查看行数和列数
+df.info()：查看索引、数据类型和内存信息
+df.describe()：查看数值型列的汇总统计
+s.value_counts(dropna=False)：查看Series对象的唯一值和计数
+df.apply(pd.Series.value_counts)：查看DataFrame对象中每一列的唯一值和计数
+## 4. 数据操作
+### 4.1. 数据切片
 数据切片主要使用loc与iloc，loc指定列名，iloc指定位置
 示例数据：
 |index|ID|姓名|年龄|日期|
@@ -103,7 +142,7 @@ low_memory=True, memory_map=False, float_precision=None)
 |1|2|李四|40|2021年2月27日|
 |2|3|王五|50|2021年2月26日|
 |3|4|赵六|50|2021年2月28日|
-#### 3.1.1. df.loc用法
+#### 4.1.1. df.loc用法
 **DataFrame.loc[ 行索引名称或条件 , 列索引名称 ]   # 闭区间（含最后一个值）**
 1. 常规切片
 ```python
@@ -141,7 +180,7 @@ Name: 1, dtype: object
 
 更多条件切片参考：https://zhuanlan.zhihu.com/p/87334662
 ```
-#### 3.1.2. df.iloc用法
+#### 4.1.2. df.iloc用法
 **DataFrame.iloc[ 行索引位置 ,  列索引位置 ]   # 开区间（不含最后一个值）**
 1. 常规切片
 ```python
@@ -160,12 +199,12 @@ Name: 1, dtype: object
 2	王五	50
 3	赵六	50
 
->>> df.iloc[lambda x: x.index % 2 == 0]取偶数行
+>>> df.iloc[lambda x: x.index % 2 == 0] # 取偶数行
 	ID	姓名	年龄	日期
 0	1	张三	30	2021年2月26日
 2	3	王五	50	2021年2月26日
 ```
-### 3.2. 数据合并
+### 4.2. 数据合并
 示例数据
 |df1|name|	score|	class|
 |--|--|--|--|
@@ -180,7 +219,7 @@ Name: 1, dtype: object
 |1|	lisi|	14|	女|
 |2|	linjj|	34|	男|
 |3|	zhoujl|	39|	男|
-#### 3.2.1. merge
+#### 4.2.1. merge
 pandas的顶级方法，提供了类似于SQL数据库连接操作的功能，支持左联、右联、内联和外联等全部四种SQL连接操作类型
 ```python
 DataFrame.merge(right, how='inner', on=None, left_on=None, right_on=None, 
@@ -236,7 +275,7 @@ index   name	score	class	age	gender
 2	linjj	 NaN	NaN	34	男
 3	zhoujl	 NaN	NaN	39	男
 ```
-#### 3.2.2. concat
+#### 4.2.2. concat
 pandas的顶级方法，提供了axis设置可用于df间行方向（增加行，下同）或列方向（增加列，下同）进行内联或外联拼接操作
 ```python
 pandas.concat(objs, axis=0, join='outer', ignore_index=False, keys=None, 
@@ -275,8 +314,10 @@ pd.concat([df1,df2], axis=1, sort=False)
 2	wangwu	 90	2	linjj	 34	男
 3	zhaoliu	 70	3	zhoujl	 39	男
 ```
-#### 3.2.3. append
+#### 4.2.3. append
 dataframe数据类型的方法，提供了行方向的拼接操作
-#### 3.2.4. join
+#### 4.2.4. join
 dataframe数据类型的方法，提供了列方向的拼接操作，支持左联、右联、内联和外联四种操作类型。  
 merge和join方法基本上能实现相同的功能，建议用merge。
+
+
