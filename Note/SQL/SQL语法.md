@@ -434,7 +434,8 @@ BETWEEN 操作符选取介于两个值之间的数据范围内的值。这些值
 加上括号可以改变优先级
 
 ### 3.4. 后过滤数据HAVING
-HAVING子句对GROUP BY分组和聚合函数之后的数据行进行过滤
+HAVING子句对GROUP BY分组和聚合函数之后的数据行进行过滤  
+HAVING子句中不能使用除了分组字段和聚合函数之外的其他字段
 ```sql
 SELECT SUM(score)
 FROM students
