@@ -83,7 +83,7 @@ plt.show()
 ```
 
 
-[![png](](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/)output_16_0.png)
+![png](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/output_16_0.png)
 
 
 #### svmlight/libsvm格式的数据集
@@ -299,7 +299,7 @@ plt.show()
 ```
 
 
-[![png](](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/)output_50_0.png)
+![png](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/output_50_0.png)
 
 
 
@@ -331,7 +331,7 @@ plt.show()
 ```
 
 
-[![png](](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/)output_52_0.png)
+![png](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/output_52_0.png)
 
 
 可以看到线性规划对非线性数据的拟合效果不理想，后面将使用多项式回归进行改进
@@ -383,7 +383,7 @@ plt.show()
 ```
 
 
-[![png](](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/)output_59_0.png)
+![png](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/output_59_0.png)
 
 
 可以看到多项式回归对数据的拟合效果很好
@@ -446,7 +446,7 @@ plt.show()
 ```
 
 
-[![png](](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/)output_68_0.png)
+![png](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/output_68_0.png)
 
 
 ### 岭回归(Ridge Regression)
@@ -704,7 +704,7 @@ plt.show()
 ```
 
 
-[![png](](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/)output_114_0.png)
+![png](https://raw.githubusercontent.com/analy-liu/PersonalImgaes/main/images/output_114_0.png)
 
 
 ## 模型评价与调优
