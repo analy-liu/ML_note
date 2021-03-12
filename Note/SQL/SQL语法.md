@@ -558,7 +558,8 @@ LIMIT 3 OFFSET 0; # 分页
 SELECT class_id, AVG(score) num
 FROM students
 WHERE gender = "M"
-GROUP BY class_id;
+GROUP BY class_id
+HAVING AVG(score)>80;
 -- 聚合查询时，WHERE要在GROUP BY前
 ```
 
