@@ -435,6 +435,13 @@ BETWEEN 操作符选取介于两个值之间的数据范围内的值。这些值
 
 ### 3.4. 后过滤数据HAVING
 HAVING子句对GROUP BY分组和聚合函数之后的数据行进行过滤
+```sql
+SELECT SUM(score)
+FROM students
+GROUP BY class
+HAVING SUM(population)>500
+# 总成绩超过500的班级
+```
 ### 3.5. 聚合查询与分组
 |聚合函数|说明|
 |:-|:-|
