@@ -1,34 +1,35 @@
-# 目录
-- [目录](#目录)
-- [关系模型](#关系模型)
-  - [主键](#主键)
-  - [外键](#外键)
-  - [索引](#索引)
-- [MySQL基础](#mysql基础)
-  - [数据库](#数据库)
-  - [表](#表)
-  - [数据类型与新建变量](#数据类型与新建变量)
-  - [内置函数（未完善）](#内置函数未完善)
-  - [窗口函数(未完善)](#窗口函数未完善)
-  - [自定义函数（未完善）](#自定义函数未完善)
-- [查找数据](#查找数据)
-  - [基本查询](#基本查询)
-  - [条件查询(筛选行) WHERE](#条件查询筛选行-where)
-  - [投影查询(筛选列) SELECT](#投影查询筛选列-select)
-  - [排序 ORDER BY](#排序-order-by)
-  - [分页 LIMIT OFFSET](#分页-limit-offset)
-  - [聚合查询](#聚合查询)
-  - [多表查询](#多表查询)
-    - [笛卡尔查询](#笛卡尔查询)
-    - [连接查询 JOIN](#连接查询-join)
-  - [综合查询(综合使用以上方法)](#综合查询综合使用以上方法)
-  - [查询思路](#查询思路)
-- [修改数据](#修改数据)
-  - [增加数据 INSERT INTO](#增加数据-insert-into)
-  - [修改数据 UPDATE](#修改数据-update)
-  - [删除数据 DELETE](#删除数据-delete)
-- [常见问题](#常见问题)
-# 关系模型
+ # SQL语法
+- [SQL语法](#sql语法)
+  - [1. 关系模型](#1-关系模型)
+    - [1.1. 主键](#11-主键)
+    - [1.2. 外键](#12-外键)
+    - [1.3. 索引](#13-索引)
+  - [2. MySQL基础](#2-mysql基础)
+    - [2.1. 数据库](#21-数据库)
+    - [2.2. 表](#22-表)
+    - [2.3. 数据类型与新建变量](#23-数据类型与新建变量)
+    - [2.4. 内置函数（未完善）](#24-内置函数未完善)
+    - [2.5. 窗口函数(未完善)](#25-窗口函数未完善)
+    - [2.6. 自定义函数（未完善）](#26-自定义函数未完善)
+  - [3. 查找数据](#3-查找数据)
+    - [3.1. 基本查询](#31-基本查询)
+    - [3.2. 投影查询(筛选列) SELECT与 去重DISTINCT](#32-投影查询筛选列-select与-去重distinct)
+    - [3.3. 先过滤数据(筛选行) WHERE](#33-先过滤数据筛选行-where)
+    - [3.4. 后过滤数据HAVING](#34-后过滤数据having)
+    - [3.5. 聚合查询与分组](#35-聚合查询与分组)
+    - [3.6. 排序 ORDER BY](#36-排序-order-by)
+    - [3.7. 多表查询](#37-多表查询)
+      - [3.7.1. 笛卡尔查询](#371-笛卡尔查询)
+      - [3.7.2. 连接查询 JOIN](#372-连接查询-join)
+    - [3.8. 分页 LIMIT OFFSET](#38-分页-limit-offset)
+    - [3.9. 综合查询(综合使用以上方法)](#39-综合查询综合使用以上方法)
+    - [3.10. 查询思路](#310-查询思路)
+  - [4. 修改数据](#4-修改数据)
+    - [4.1. 增加数据 INSERT INTO](#41-增加数据-insert-into)
+    - [4.2. 修改数据 UPDATE](#42-修改数据-update)
+    - [4.3. 删除数据 DELETE](#43-删除数据-delete)
+  - [5. 常见问题](#5-常见问题)
+## 1. 关系模型
 
 关系数据库是建立在关系模型上的。而关系模型本质上就是若干个存储数据的二维表，可以把它们看作很多Excel表。
 
@@ -46,7 +47,7 @@
 “多对一”：学生表对班级表，多个学生对应一个班级  
 “一对一”：班级表对教师表，一个班级对应一个班主任  
 
-## 主键
+### 1.1. 主键
 **主键**：一张表中能**区分**不同记录（行）的字段（列），例如ID  
 **联合主键**：两个或更多的字段都设置为主键，允许一列有重复，只要不是所有主键列都重复即可。**尽量不使用联合主键**，会使关系表复杂度上升。
 
@@ -54,7 +55,7 @@
 **常见主键**：ID。  
 **可作为ID的类型**：自增整数类型、全局唯一GUID类型  
 
-## 外键
+### 1.2. 外键
 **主要内容**：关系数据库通过外键可以实现一对多、多对多和一对一的关系。外键既可以通过数据库来约束，也可以不设置约束，仅依靠应用程序的逻辑来保证。
 
 **外键**：在一张表中能**关联**另一张表的字段（列），一般是关联另一张表的主键  
@@ -83,7 +84,7 @@ DROP FOREIGN KEY fk_class_id;
 一对一关系是指，一个表的记录对应到另一个表的唯一一个记录。  
 多用于存储可能有缺失值的字段，也用于将经常读取和不经常读取的字段分开，提升性能。
 
-## 索引
+### 1.3. 索引
 **索引**：索引是关系数据库中对某一列或多个列的值进行预排序的数据结构。  
 通过使用索引，可以让数据库系统不必扫描整个表，而是直接定位到符合条件的记录，这样就大大加快了查询速度。
 
@@ -118,9 +119,9 @@ DROP INDEX index_name # DB2/Oracle中
 ```
 可以对一张表创建多个索引。索引的优点是提高了查询效率，缺点是在插入、更新和删除记录时，需要同时修改索引，因此，索引越多，插入、更新和删除记录的速度就越慢。  
 对于主键，关系数据库会**自动对其创建主键索引**。使用主键索引的效率是最高的，因为主键会保证绝对唯一。
-# MySQL基础
+## 2. MySQL基础
 
-## 数据库
+### 2.1. 数据库
 ```SQL
 -- 创建新数据库
 CREATE DATABASE dbname;
@@ -132,7 +133,7 @@ ALTER DATABASE - 修改数据库
 -- 删除数据库
 DROP DATABASE database_name
 ```
-## 表
+### 2.2. 表
 ```SQL
 -- 创建新表
 CREATE TABLE table_name
@@ -166,7 +167,7 @@ TRUNCATE TABLE table_name
 -- 删除表
 DROP TABLE table_name
 ```
-## 数据类型与新建变量
+### 2.3. 数据类型与新建变量
 主要数据类型
 |类型|用途|格式|
 |:-|:-|:-|
@@ -188,7 +189,7 @@ declare m INT;
 -- 设置变量值
 set m=N-1; 
 ```
-## 内置函数（未完善）
+### 2.4. 内置函数（未完善）
 1. 条件判断
 
 |函数|描述|用法|
@@ -229,7 +230,7 @@ END
 6. 加密函数
 7. 其他函数
 
-## 窗口函数(未完善)
+### 2.5. 窗口函数(未完善)
 窗口函数用法：
 
     函数名（[expr]） over子句
@@ -300,7 +301,7 @@ from Scores;
 |:-|:-|:-|
 |nth_value(expr,n)|返回窗口中第N个expr的值，expr可以是表达式，也可以是列名|
 |nfile(n)|将分区中的有序数据分为n个桶，记录桶号。|
-## 自定义函数（未完善）
+### 2.6. 自定义函数（未完善）
 ```SQL
 -- 语法基础
 -- 例子：177返回第N高薪水
@@ -317,7 +318,7 @@ BEGIN
   );
 END
 ```
-# 查找数据
+## 3. 查找数据
 **准备数据**：  
 使用廖雪峰老师提供的数据：
 https://raw.githubusercontent.com/michaelliao/learn-sql/master/mysql/init-test-data.sql
@@ -327,7 +328,7 @@ set character set utf8;
 cmd先cd到sql文件所在目录  
 再登录MySQL，在输入密码后输入：\\. init-test-data.sql  
 
-## 基本查询
+### 3.1. 基本查询
 
 ```SQL
 -- 显示所有数据库
@@ -350,8 +351,38 @@ SELECT 100+200
 select count(id) from students;
 
 ```
+### 3.2. 投影查询(筛选列) SELECT与 去重DISTINCT
+1. SELECT 语句基础
+```SQL
+-- 按照列名筛选
+SELECT id, score, name FROM students;
+-- 按照列名筛选的同时给列起别名
+SELECT id, score points, name FROM students;
+SELECT 列1 别名1, 列2 别名2 FROM ...
 
-## 条件查询(筛选行) WHERE
+-- 只列出不同的值
+SELECT DISTINCT column_name,column_name
+FROM table_name;
+```
+2. UNION 操作符
+```SQL
+-- 默认地，UNION 操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。
+SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+-- UNION 结果集中的列名总是等于 UNION 中第一个 SELECT 语句中的列名。
+SELECT column_name(s) FROM table1
+WHERE condition
+UNION ALL
+SELECT column_name(s) FROM table2
+WHERE condition;
+```
+UNION 操作符用于合并两个或多个 SELECT 语句的结果集。  
+请注意，UNION 内部的每个 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每个 SELECT 语句中的列的顺序必须相同。
+
+### 3.3. 先过滤数据(筛选行) WHERE
+WHERE在GROUP BY分组和聚合函数之前对数据行进行过滤
+WHERE子句中不能使用聚合函数
 1. WHERE 语句基础
 ```SQL
 -- 单条件查询
@@ -402,71 +433,9 @@ BETWEEN 操作符选取介于两个值之间的数据范围内的值。这些值
 运算优先级：NOT、AND、OR  
 加上括号可以改变优先级
 
-## 投影查询(筛选列) SELECT
-1. SELECT 语句基础
-```SQL
--- 按照列名筛选
-SELECT id, score, name FROM students;
--- 按照列名筛选的同时给列起别名
-SELECT id, score points, name FROM students;
-SELECT 列1 别名1, 列2 别名2 FROM ...
-
--- 只列出不同的值
-SELECT DISTINCT column_name,column_name
-FROM table_name;
-```
-2. UNION 操作符
-```SQL
--- 默认地，UNION 操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。
-SELECT column_name(s) FROM table1
-UNION
-SELECT column_name(s) FROM table2;
--- UNION 结果集中的列名总是等于 UNION 中第一个 SELECT 语句中的列名。
-SELECT column_name(s) FROM table1
-WHERE condition
-UNION ALL
-SELECT column_name(s) FROM table2
-WHERE condition;
-```
-UNION 操作符用于合并两个或多个 SELECT 语句的结果集。  
-请注意，UNION 内部的每个 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每个 SELECT 语句中的列的顺序必须相同。
-
-
-## 排序 ORDER BY
-ORDER BY 语句
-```SQL
--- 升序排序
-SELECT * FROM students ORDER BY score;
-
--- 降序排序
-SELECT * FROM students ORDER BY score DESC;
-
--- 多重排序
-SELECT * FROM students ORDER BY score DESC, id;
--- 如果score有相同分数，再按id排序，实现绝对排序
--- 排序值相同的行位置是随机的，在分页时会出错
-```
-## 分页 LIMIT OFFSET
-LIMIT OFFSET语句
-LIMIT OFFSET后面只接受正整数与单一变量，不能时负数、0、表达式
-```SQL
-SELECT id, name, gender, score
-FROM students
-ORDER BY score DESC
-LIMIT 3 OFFSET 0;
--- 对结果集从0号记录开始，最多取3条。
--- 注意SQL记录集的索引从0开始
-
--- 语句
-LIMIT <pageSize> OFFSET <N>;
--- N = pageSize * (pageIndex - 1)
--- 只写LIMINT时，相当于OFFSET设置为0
--- N越大，查询速度越慢
-
--- MySQL中简写
-LIMIT <index>, <pageSize>;
-```
-## 聚合查询
+### 3.4. 后过滤数据HAVING
+HAVING子句对GROUP BY分组和聚合函数之后的数据行进行过滤
+### 3.5. 聚合查询与分组
 |聚合函数|说明|
 |:-|:-|
 |COUNT|计数|
@@ -496,8 +465,25 @@ FROM students
 GROUP BY class_id, gender;
 --分组时，SELECT只能放入分组的列
 ```
-## 多表查询
-### 笛卡尔查询
+### 3.6. 排序 ORDER BY
+ORDER BY 语句
+```SQL
+-- 升序排序
+SELECT * FROM students ORDER BY score;
+
+-- 降序排序
+SELECT * FROM students ORDER BY score DESC;
+
+-- 多重排序
+SELECT * FROM students ORDER BY score DESC, id;
+-- 如果score有相同分数，再按id排序，实现绝对排序
+-- 排序值相同的行位置是随机的，在分页时会出错
+```
+
+
+
+### 3.7. 多表查询
+#### 3.7.1. 笛卡尔查询
 ```SQL
 SELECT
     s.id sid,
@@ -513,7 +499,7 @@ WHERE s.gender = 'M' AND c.id = 1;
 即结果集的列数是students表和classes表的**列数之和**，行数是students表和classes表的**行数之积**。
 使用笛卡尔查询时要非常小心，因为是乘积，很容易返回数据过多
 笛卡尔积主要是用来查看连续缺失的数据。
-### 连接查询 JOIN
+#### 3.7.2. 连接查询 JOIN
 ```SQL
 -- 内连接(INNER JOIN)
 SELECT s.id, s.name, s.class_id, c.name class_name, s.gender, s.score
@@ -529,13 +515,33 @@ RIGHT OUTER JOIN classes c
 FULL OUTER JOIN classes c
 
 ```
-## 综合查询(综合使用以上方法)
+### 3.8. 分页 LIMIT OFFSET
+LIMIT OFFSET语句
+LIMIT OFFSET后面只接受正整数与单一变量，不能时负数、0、表达式
+```SQL
+SELECT id, name, gender, score
+FROM students
+ORDER BY score DESC
+LIMIT 3 OFFSET 0;
+-- 对结果集从0号记录开始，最多取3条。
+-- 注意SQL记录集的索引从0开始
+
+-- 语句
+LIMIT <pageSize> OFFSET <N>;
+-- N = pageSize * (pageIndex - 1)
+-- 只写LIMINT时，相当于OFFSET设置为0
+-- N越大，查询速度越慢
+
+-- MySQL中简写
+LIMIT <index>, <pageSize>;
+```
+### 3.9. 综合查询(综合使用以上方法)
 ```SQL
 -- 连接多表，查询数值，筛选行列，排序，分页
 SELECT DISTINCT s.id, s.name, s.class_id, c.name class_name, s.gender, s.score
 FROM students s # 主表
 INNER JOIN classes c # 连接的附表
-ON s.class_id = c.id; # 主表附表连接条件
+ON s.class_id = c.id # 主表附表连接条件
 WHERE gender = "M" # 筛选条件
 ORDER BY score DESC, id # 按指定列排序
 LIMIT 3 OFFSET 0; # 分页
@@ -549,7 +555,7 @@ GROUP BY class_id;
 -- 聚合查询时，WHERE要在GROUP BY前
 ```
 
-## 查询思路
+### 3.10. 查询思路
 
 1. 某些带聚合功能的查询需求应用窗口函数是一个最优选择。（如果版本允许）
 2. 优先单表查询：
@@ -558,8 +564,8 @@ GROUP BY class_id;
    连接是SQL中非常强大的用法，小表驱动大表+建立合适索引+合理运用连接条件，基本上连接可以解决绝大部分问题。但join级数不宜过多，毕竟是一个接近指数级增长的关联效果
 4. 尽量不使用子查询与笛卡尔积
 5. 自定义变量在复杂SQL实现中会很有用
-# 修改数据
-## 增加数据 INSERT INTO
+## 4. 修改数据
+### 4.1. 增加数据 INSERT INTO
 ```SQL
 -- 基本语法
 INSERT INTO <表名> (字段1, 字段2, ...) VALUES (值1, 值2, ...);
@@ -586,7 +592,7 @@ INSERT INTO students
 但是对应的VALUES就得变成  
 (80, 'M', '大牛', 2)。
 
-## 修改数据 UPDATE
+### 4.2. 修改数据 UPDATE
 ```SQL
 -- 基本语法
 UPDATE <表名> SET 字段1=值1, 字段2=值2, ... WHERE ...;
@@ -608,7 +614,7 @@ WHERE score<80;
 UPDATE students SET score=60;
 ```
 如果WHERE条件没有匹配到任何记录，UPDATE语句不会报错，也不会有任何记录被更新。例如：
-## 删除数据 DELETE
+### 4.3. 删除数据 DELETE
 ```SQL
 -- 基本语句
 DELETE FROM <表名> WHERE ...;
@@ -626,7 +632,7 @@ DELETE FROM students;
 有外键：
 1. 创建外键时定义了ON DELETE CASCADE，关联数据被自动删除
 2. 没有定义ON DELETE CASCADE，有关联数据时报错
-# 常见问题
+## 5. 常见问题
 **中文出现乱码时的解决办法**
 
 修改cmd默认编码格式：
