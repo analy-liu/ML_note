@@ -12,14 +12,14 @@ import numpy as np
 ## 数据IO
 
 ### 数据导入
-pd.read_csv(filename)： 从CSV文件导入数据
-pd.read_excel(filename)： 从Excel文件导入数据
-pd.read_table(filename)： 从限定分隔符的文本文件导入数据
-pd.read_json(json_string)： 从JSON格式的字符串导入数据
-pd.read_SQL(query, connection_object)： 从SQL表/库导入数据
-pd.read_html(url)： 解析URL、字符串或者HTML文件
-pd.read_clipboard()： 从粘贴板获取内容
-pd.DataFrame(dict)： 从字典对象导入数据
+pd.read_csv(filename)： 从CSV文件导入数据  
+pd.read_excel(filename)： 从Excel文件导入数据  
+pd.read_table(filename)： 从限定分隔符的文本文件导入数据  
+pd.read_json(json_string)： 从JSON格式的字符串导入数据  
+pd.read_SQL(query, connection_object)： 从SQL表/库导入数据  
+pd.read_html(url)： 解析URL、字符串或者HTML文件  
+pd.read_clipboard()： 从粘贴板获取内容  
+pd.DataFrame(dict)： 从字典对象导入数据  
 ### 数据导出
 # 读取中文路径
 path = open(r'.\data.csv')
@@ -68,10 +68,10 @@ low_memory=True, memory_map=False, float_precision=None)
 |infer_datetime_format|自动识别日期时间|bool|False|(./data.csv,<br>parse_dates=True,<br>infer_datetime_format=True)|按用例方法，自动识别并解析，无需指定|
 
 ### 数据导出
-df.to_csv(filename)：导出数据到CSV文件
-df.to_excel(filename)：导出数据到Excel文件
-df.to_sql(table_name, connection_object)：导出数据到SQL表
-df.to_json(filename)：以Json格式导出数据到文本文件
+df.to_csv(filename)：导出数据到CSV文件  
+df.to_excel(filename)：导出数据到Excel文件  
+df.to_sql(table_name, connection_object)：导出数据到SQL表  
+df.to_json(filename)：以Json格式导出数据到文本文件  
 #### df.to_csv()参数
 
 
@@ -96,11 +96,11 @@ date_format=None, doublequote=True, escapechar=None, decimal='.')
 |decimal|字符识别为小数点分隔符|string|‘.’|欧洲数据使用 ​​’，’|
 
 ## 数据查看
-df.shape()：查看行数和列数
-df.info()：查看索引、数据类型和内存信息
-df.describe()：查看数值型列的汇总统计
-s.value_counts(dropna=False)：查看Series对象的唯一值和计数
-df.apply(pd.Series.value_counts)：查看DataFrame对象中每一列的唯一值和计数
+df.shape()：查看行数和列数  
+df.info()：查看索引、数据类型和内存信息  
+df.describe()：查看数值型列的汇总统计  
+s.value_counts(dropna=False)：查看Series对象的唯一值和计数  
+df.apply(pd.Series.value_counts)：查看DataFrame对象中每一列的唯一值和计数  
 ## 数据操作
 
 ### 数据切片
@@ -620,7 +620,7 @@ labels：要删除的行列的名字，用列表给定
 axis：默认0，删除行；1，删除列  
 index：直接指定要删除的行  
 columns：直接指定要删除的列  
-inplace：True，修改了原始数据；默认False，不修改原始数据，返回新DataFrame
+inplace：True，修改了原始数据；默认False，不修改原始数据，返回新DataFrame  
 
 #### 添加删除列
 
