@@ -1,7 +1,32 @@
 
-# python中pandas包使用笔记
-
-## 包导入
+ # python中pandas包使用笔记
+- [python中pandas包使用笔记](#python中pandas包使用笔记)
+  - [1. 包导入](#1-包导入)
+  - [2. 数据IO](#2-数据io)
+    - [2.1. 数据导入](#21-数据导入)
+    - [2.2. 数据导出](#22-数据导出)
+      - [2.2.1. pd.read_csv()参数](#221-pdread_csv参数)
+    - [2.3. 数据导出](#23-数据导出)
+      - [2.3.1. df.to_csv()参数](#231-dfto_csv参数)
+  - [3. 数据查看](#3-数据查看)
+  - [4. 数据操作](#4-数据操作)
+    - [4.1. 数据切片](#41-数据切片)
+      - [4.1.1. df.loc用法](#411-dfloc用法)
+      - [4.1.2. df.iloc用法](#412-dfiloc用法)
+    - [4.2. 添加与删除数据](#42-添加与删除数据)
+      - [4.2.1. 添加删除列](#421-添加删除列)
+      - [4.2.2. 添加删除行](#422-添加删除行)
+      - [4.2.3. 数据去重](#423-数据去重)
+    - [4.3. index操作](#43-index操作)
+    - [4.4. 数据拆分](#44-数据拆分)
+    - [4.5. 数据合并](#45-数据合并)
+      - [4.5.1. merge](#451-merge)
+      - [4.5.2. concat](#452-concat)
+    - [4.6. 列与列计算](#46-列与列计算)
+    - [4.7. 数据分组与聚合函数](#47-数据分组与聚合函数)
+      - [4.7.1. groupby分组](#471-groupby分组)
+      - [4.7.2. 聚合函数](#472-聚合函数)
+## 1. 包导入
 
 
 ```python
@@ -9,9 +34,9 @@ import pandas as pd
 import numpy as np
 ```
 
-## 数据IO
+## 2. 数据IO
 
-### 数据导入
+### 2.1. 数据导入
 pd.read_csv(filename)： 从CSV文件导入数据  
 pd.read_excel(filename)： 从Excel文件导入数据  
 pd.read_table(filename)： 从限定分隔符的文本文件导入数据  
@@ -20,13 +45,15 @@ pd.read_SQL(query, connection_object)： 从SQL表/库导入数据
 pd.read_html(url)： 解析URL、字符串或者HTML文件  
 pd.read_clipboard()： 从粘贴板获取内容  
 pd.DataFrame(dict)： 从字典对象导入数据  
-### 数据导出
+### 2.2. 数据导出
+```python
 # 读取中文路径
 path = open(r'.\data.csv')
 # csv文件是gbk格式:open(r'.\文档\data.csv','rb')
 pd.read_csv(path, sep='\t', skiprows=[0], nrows=0, na_values='1.#INF')
 path.close
-#### pd.read_csv()参数
+```
+#### 2.2.1. pd.read_csv()参数
 
 
 ```python
@@ -67,12 +94,12 @@ low_memory=True, memory_map=False, float_precision=None)
 |parse_dates|日期时间解析|bool list dict|False|(./data.csv,<br>parse_dates=True)|指定日期时间字段进行解析:<br>parse_dates=['年份']<br>将1,4列合并为‘time’时间类型列<br>parse_dates={'time':[1,4]}|
 |infer_datetime_format|自动识别日期时间|bool|False|(./data.csv,<br>parse_dates=True,<br>infer_datetime_format=True)|按用例方法，自动识别并解析，无需指定|
 
-### 数据导出
+### 2.3. 数据导出
 df.to_csv(filename)：导出数据到CSV文件  
 df.to_excel(filename)：导出数据到Excel文件  
 df.to_sql(table_name, connection_object)：导出数据到SQL表  
 df.to_json(filename)：以Json格式导出数据到文本文件  
-#### df.to_csv()参数
+#### 2.3.1. df.to_csv()参数
 
 
 ```python
@@ -95,15 +122,15 @@ date_format=None, doublequote=True, escapechar=None, decimal='.')
 |date_format|字符串对象转换为日期时间对象|string|None||
 |decimal|字符识别为小数点分隔符|string|‘.’|欧洲数据使用 ​​’，’|
 
-## 数据查看
+## 3. 数据查看
 df.shape()：查看行数和列数  
 df.info()：查看索引、数据类型和内存信息  
 df.describe()：查看数值型列的汇总统计  
 s.value_counts(dropna=False)：查看Series对象的唯一值和计数  
 df.apply(pd.Series.value_counts)：查看DataFrame对象中每一列的唯一值和计数  
-## 数据操作
+## 4. 数据操作
 
-### 数据切片
+### 4.1. 数据切片
 
 数据切片主要使用loc与iloc，loc指定列名，iloc指定位置  
 
@@ -179,7 +206,7 @@ df
 
 
 
-#### df.loc用法
+#### 4.1.1. df.loc用法
 
 **DataFrame.loc[ 行索引名称或条件 , 列索引名称 ]   # 闭区间（含最后一个值）**
 
@@ -405,7 +432,7 @@ df.loc[lambda df: df['年龄'] == 50, ["姓名"]]
 
 更多条件切片参考：https://zhuanlan.zhihu.com/p/87334662
 
-#### df.iloc用法
+#### 4.1.2. df.iloc用法
 
 **DataFrame.iloc[ 行索引位置 ,  列索引位置 ]   # 开区间（不含最后一个值）**
 
@@ -537,7 +564,7 @@ df.iloc[lambda x: x.index % 2 == 0] # 取偶数行
 
 
 
-### 添加与删除数据
+### 4.2. 添加与删除数据
 
 
 ```python
@@ -622,7 +649,7 @@ index：直接指定要删除的行
 columns：直接指定要删除的列  
 inplace：True，修改了原始数据；默认False，不修改原始数据，返回新DataFrame  
 
-#### 添加删除列
+#### 4.2.1. 添加删除列
 
 单独添加一个数据方法，未添加的行显示为NaN空值
 
@@ -921,7 +948,7 @@ df
 
 
 
-#### 添加删除行
+#### 4.2.2. 添加删除行
 
 在最后一行添加数据
 
@@ -1153,14 +1180,14 @@ df
 
 
 
-#### 数据去重
+#### 4.2.3. 数据去重
 
 
 ```python
 df.drop_duplicates()
 ```
 
-### index操作
+### 4.3. index操作
 
 添加和删除行后，需要处理index，有set_index、sort_index()与reset_index()三种方法  
 
@@ -1392,7 +1419,7 @@ df
 
 
 
-### 数据拆分
+### 4.4. 数据拆分
 
 
 ```python
@@ -1654,7 +1681,7 @@ df.head(3)
 
 
 
-### 数据合并
+### 4.5. 数据合并
 
 DataFrame合并主要使用两种方法，merge与concat
 
@@ -1788,7 +1815,7 @@ df2
 
 
 
-#### merge
+#### 4.5.1. merge
 
 提供了类似于SQL数据库连接操作的功能，支持左联、右联、内联和外联等全部四种SQL连接操作类型
 
@@ -2121,7 +2148,7 @@ df3
 
 
 
-#### concat
+#### 4.5.2. concat
 
 提供了axis设置可用于df间行方向（增加行，下同）或列方向（增加列，下同）进行内联或外联拼接操作
 
@@ -2329,7 +2356,7 @@ pd.concat([df1,df2], axis=1, sort=False)
 
 
 
-### 列与列计算
+### 4.6. 列与列计算
 
 
 ```python
@@ -2506,7 +2533,7 @@ df
 
 
 
-### 数据分组与聚合函数
+### 4.7. 数据分组与聚合函数
 
 数据分组通过groupby函数实现  
 实现类似SQL聚合函数的运算通过agg，transform和apply实现  
@@ -2653,7 +2680,7 @@ df.head()
 
 
 
-#### groupby分组
+#### 4.7.1. groupby分组
 
 groupby的过程就是将原有的DataFrame按照groupby的字段，划分为若干个分组DataFrame  
 由于返回值是一个DataFrameGroupBy对象，返回的结果是其内存地址，并不利于直观地理解，转为list可查看。
@@ -2776,7 +2803,7 @@ list(df.groupby(['订单日期', '产品类型']))
 
 
 
-#### 聚合函数
+#### 4.7.2. 聚合函数
 
 统计不同产品的总销量，使用agg与apply
 

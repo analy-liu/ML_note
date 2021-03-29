@@ -42,7 +42,7 @@ MySQL Client的可执行程序是mysql，MySQL Server的可执行程序是mysqld
 ```cmd
 # 登录操作
 >mysql -u root -p
-Enter passwo
+Enter password
 
 # 提示符
 mysql> # 准备好接受新的命令。

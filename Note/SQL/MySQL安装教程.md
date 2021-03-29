@@ -33,6 +33,15 @@
 打开cmd，输入mysql -u root -p  
 输入密码后显示welcome to MySQL, 并有具体版本号
 
+# 异常处理
+## win10中MySQL出现 ERROR 1045 (28000): Access denied for user 'root'@'localhost'
+1. 用管理员权限打开cmd，输入net stop mysql
+2. 删除mysql文件夹中的data文件夹
+3. 在MySQL安装目录的 bin 目录下执行命令mysqld --initialize --console
+4. 输出结果中有 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: password 记住password
+5. 之后输入mysql -u root -p登录
+6. 修改初始密码alter user 'root'@'localhost' identified by 'youpassword';
+参考连接：https://blog.csdn.net/BigData_Mining/article/details/104539934
 # 参考链接
 https://zhuanlan.zhihu.com/p/37152572
 https://blog.csdn.net/zhouzezhou/article/details/52446608
