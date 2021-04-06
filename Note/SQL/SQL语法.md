@@ -123,6 +123,8 @@ DROP INDEX index_name # DB2/Oracle中
 
 ### 2.1. 数据库
 ```SQL
+-- 查看数据库
+SHOW DATABASE;
 -- 创建新数据库
 CREATE DATABASE dbname;
 CREATE DATABASE IF NOT EXISTS test;
@@ -135,6 +137,8 @@ DROP DATABASE database_name
 ```
 ### 2.2. 表
 ```SQL
+-- 查看表
+show tables;
 -- 创建新表
 CREATE TABLE table_name
 (
