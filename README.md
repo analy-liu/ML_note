@@ -19,3 +19,10 @@
   - SQL
     - MySQL安装教程
     - SQL语句
+
+## 未整理学习计划
+1. python工程化
+   1. flask
+   2. django
+2. 数据存储
+   1. object storage
